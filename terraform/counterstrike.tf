@@ -20,7 +20,9 @@ variable "instance_ami" {
 }
 
 variable "machine_type" {
-  default = "t3a.large"
+  #default = "t3a.large"
+  # Choose one with instance storage...
+  default = "c5ad.large"
 }
 
 variable "ipv4_cidr_block" {
@@ -101,27 +103,18 @@ resource "aws_security_group" "allow_admin" {
   }
 
   ingress {
-    description      = "27005-27009 UDP from anywhere"
-    from_port        = 27005
-    to_port          = 27009
+    description      = "27000-27021 UDP from anywhere"
+    from_port        = 27000
+    to_port          = 27021
     protocol         = "udp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
 
   ingress {
-    description      = "27020 UDP from anywhere"
-    from_port        = 27020
-    to_port          = 27020
-    protocol         = "udp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  ingress {
-    description      = "27015 TCP from anywhere"
-    from_port        = 27015
-    to_port          = 27015
+    description      = "27000-27021 TCP from anywhere"
+    from_port        = 27000
+    to_port          = 27021
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
@@ -165,7 +158,23 @@ resource "aws_instance" "inst" {
   key_name               = aws_key_pair.key.key_name
   depends_on             = [aws_internet_gateway.igw]
 
+  tags = {
+    Environment = var.environ_tag
+    Name = "Counterstrike Instance"
+  }
+}
+
+resource "aws_ebs_volume" "inst_drive" {
+  availability_zone = aws_instance.inst.availability_zone
+  size              = 50
+
   tags = { Environment = var.environ_tag }
+}
+
+resource "aws_volume_attachment" "ebs_att" {
+  device_name = "/dev/sdc"
+  volume_id   = aws_ebs_volume.inst_drive.id
+  instance_id = aws_instance.inst.id
 }
 
 /*

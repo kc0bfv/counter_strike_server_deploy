@@ -1,0 +1,15 @@
+#!/bin/bash
+
+DESKTOP="-ip 192.168.1.2 +port 27016 +clientport 27006 +tv_port 27021"
+LAPTOP="-ip 192.168.1.10 +port 27015 +clientport 27005 +tv_port 27020"
+CURRENTCONFIG=""
+
+SERVERCONFIGS=~/serverConfigs
+
+if [ "$1" == "update" ]; then
+	~/srcds_1/steam -command update -game cstrike -dir ~/srcds_1/ 
+else
+	cp "${SERVERCONFIGS}/motd16.txt" ~/srcds_1/cstrike/motd.txt
+	cd ~/srcds_1
+	screen -dmS cs16server ~/srcds_1/hlds_run -game cstrike +map cs_dune +maxplayers 32 $CURRENTCONFIG 
+fi

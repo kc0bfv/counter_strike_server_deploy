@@ -1,0 +1,8 @@
+de_bank
+de_lake
+de_safehouse
+de_shortdust
+de_shorttrain
+de_shortnuke
+de_stmarc
+de_sugarcane

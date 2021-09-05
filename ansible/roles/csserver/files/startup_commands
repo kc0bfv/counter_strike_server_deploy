@@ -1,0 +1,25 @@
+#!/bin/bash
+
+date
+
+TEMPDISK="nvme1n1"
+ls -l /dev/sdc | grep "$TEMPDISK" -q
+if [ $? -eq 0 ]; then
+    TEMPDISK="nvme2n1"
+fi
+
+echo -e 'n\np\n\n\n\nw\n' | /usr/sbin/fdisk /dev/$TEMPDISK
+/usr/sbin/mkfs.ext4 /dev/${TEMPDISK}p1
+mount /dev/${TEMPDISK}p1 /mnt
+mkdir /mnt/steamtemp
+mkdir /mnt/steamtemp/temp
+mkdir /mnt/steamtemp/downloading
+chown -R steam.steam /mnt/steamtemp
+
+if [ $? -ne 0 ]; then
+    echo FAILED DURING SETUP
+    date
+    exit 1
+fi
+
+su steam -c 'screen -dmS serverUpdate sh -c "/home/steam/bin/startGOServer update; /home/steam/bin/startGOServer update; /home/steam/bin/startGOServer noscreen"'

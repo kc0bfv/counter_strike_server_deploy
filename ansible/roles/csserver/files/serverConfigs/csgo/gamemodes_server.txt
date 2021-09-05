@@ -1,0 +1,179 @@
+// To use this file, rename it to GameModes_Server.txt
+//
+// Values here override the default gamemodes.txt 
+
+"GameModes_Server.txt"
+{
+	"gameTypes"
+	{
+		"classic"
+		{
+			"gameModes"
+			{
+				"casual"
+				{
+					"maxplayers"							"40"
+
+					"mapgroupsMP"						// List of mapgroups valid for this game mode
+					{
+						"classic_maps"		""
+						"all_maps"		""
+					} // mapgroupsMP
+				} // casual
+				"competitive"
+				{
+					"maxplayers"							"40"
+
+					"mapgroupsMP"						// List of mapgroups valid for this game mode
+					{
+						"classic_maps"		""
+						"all_maps"		""
+					} // mapgroupsMP
+				} // competitive
+			}	// game mode
+		} // classic
+
+		"gungame"
+		{
+			"gameModes"
+			{
+				"gungameprogressive"
+				{
+					"maxplayers"							"40"
+
+					"mapgroupsMP"						// List of mapgroups valid for this game mode
+					{
+						"gun_game_maps"		""
+						"classic_maps"		""
+						"all_maps"		""
+					} // mapgroupsMP
+				} // gungameprogressive 
+				"gungametrbomb"
+				{
+					"maxplayers"							"40"
+
+					"mapgroupsMP"						// List of mapgroups valid for this game mode
+					{
+						"gun_game_maps"		""
+						"classic_maps"		""
+						"all_maps"		""
+					} // mapgroupsMP
+				} // gungametrbomb
+			}	// game mode
+		} // gungame
+	} // game type
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Map groups
+//
+// To use a mapgroup, it needs to be defined in a keyvalues
+// block such as the example below, as well as listed in the 
+// 'mapgroupsMP' block within the game mode that will run it,
+// such as the example above.
+//
+// Then launch the server with '+mapgroup MAPGROUPNAME'
+//
+// Example:
+//
+// srcds -game csgo +game_mode 1 +mapgroup mg_bomb_se +map de_nuke_se
+//
+//
+// Check the developer wiki for updated community info
+// https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	"mapgroups"
+	{
+		"mg_bomb_se"									// mapgroup definition
+		{
+			"name"			"mg_bomb_se"
+			"maps"
+			{
+				"de_dust_se"		""
+				"de_dust2_se"		""
+				"de_nuke_se"		""
+				"de_train_se"		""
+				"de_inferno_se"		""
+				"de_aztec_se"		""
+			}
+		}
+		"all_maps"
+		{
+			"name"			"all_maps"
+			"maps"
+			{
+
+				"cs_backalley_go"		""
+				"cs_office"		""
+				"cs_assault"		""
+				"cs_italy"		""
+				"cs_height"		""
+				"cs_militia_source_beta1"	""
+				"cs_siege_go_rc1"		""
+				"de_chateau_csgo_b1"		""
+				"de_prodigy_csgo_mv1"		""
+				"de_cobble_b4"		""
+				"de_dust2"		""
+				"de_train"		""
+				"de_sultan"		""
+				"de_piranesi"		""
+				"de_inferno"		""
+				"de_dust"		""
+				"de_aztec"		""
+				"de_nuke"		""
+				"de_vertigo"		""
+				"de_museum_source_beta1"	""
+
+				// Don't know if these will work...
+				"de_lake"		""
+				"de_stmarc"		""
+				"de_sugarcane"		""
+				"de_bank"		""
+				"de_safehouse"		""
+				"de_shorttrain"		""
+
+				// Really don't know about these
+				"ar_shoots"		""
+				"ar_monastery"		""
+				"ar_baggage"		""
+			}
+		}
+		"classic_maps"
+		{
+			"name"			"classic_maps"
+			"maps"
+			{
+
+				"cs_office"		""
+				"cs_italy"		""
+				"de_dust2"		""
+				"de_train"		""
+				"de_inferno"		""
+				"de_dust"		""
+				"de_aztec"		""
+				"de_nuke"		""
+				"de_vertigo"		""
+			}
+		}
+		"gun_game_maps"
+		{
+			"name"			"gun_game_maps"
+			"maps"
+			{
+				// Don't know if these will work...
+				"de_lake"		""
+				"de_stmarc"		""
+				"de_sugarcane"		""
+				"de_bank"		""
+				"de_safehouse"		""
+				"de_shorttrain"		""
+
+				// Really don't know about these
+				"ar_shoots"		""
+				"ar_monastery"		""
+				"ar_baggage"		""
+			}
+		}
+	}
+}

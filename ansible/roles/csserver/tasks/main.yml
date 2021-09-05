@@ -11,7 +11,17 @@
   replace:
     path: /etc/apt/sources.list
     regexp: debian bullseye main$
-    replace: debian bullseye main non-free$
+    replace: debian bullseye main non-free
+
+- name: Preseed Steam Question Response
+  shell:
+    cmd: (echo steam steam/question select "I AGREE" | debconf-set-selections) && touch /usr/local/etc/steam_question_preseed
+    creates: /usr/local/etc/steam_question_preseed
+
+- name: Preseed Steam License Response
+  shell:
+    cmd: (echo steam steam/license note "" | debconf-set-selections) && touch /usr/local/etc/steam_license_preseed
+    creates: /usr/local/etc/steam_license_preseed
 
 - name: Install Steam
   apt:
@@ -19,3 +29,134 @@
     update_cache: yes
   environment:
     DEBIAN_FRONTEND: noninteractive
+
+- name: Copy Over Startup Commands
+  copy:
+    src: startup_commands
+    dest: /root
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Make user bin dir
+  file:
+    path: "/home/{{ ansible_user }}/bin"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: Copy Over Change to Steam
+  copy:
+    src: change_to_steam
+    dest: "/home/{{ ansible_user }}/bin"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
+
+- name: Copy Over User Readme
+  copy:
+    src: README
+    dest: "/home/{{ ansible_user }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Copy Over Steam Bin
+  copy:
+    src: bin
+    dest: /home/steam
+    owner: steam
+    group: steam
+    mode: 0744
+
+- name: Copy Over Configs
+  copy:
+    src: serverConfigs
+    dest: /home/steam
+    owner: steam
+    group: steam
+
+- name: Set Server Admins
+  template:
+    src: admins_simple.ini
+    dest: /home/steam/serverConfigs/csgo/admins_simple.ini
+    owner: steam
+    group: steam
+
+- name: Set Server Autoexec
+  template:
+    src: autoexec.cfg
+    dest: /home/steam/serverConfigs/csgo/autoexec.cfg
+    owner: steam
+    group: steam
+
+- name: Set Server Cfg
+  template:
+    src: server.cfg
+    dest: /home/steam/serverConfigs/csgo/server.cfg
+    owner: steam
+    group: steam
+
+- name: Set WebAPI Auth Key
+  template:
+    src: webapi_authkey.txt
+    dest: /home/steam/serverConfigs/csgo/webapi_authkey.txt
+    owner: steam
+    group: steam
+
+- name: Make Steam mount point
+  file:
+    path: "/home/steam/Steam"
+    state: directory
+    mode: 0755
+
+- name: Fdisk the CS Drive
+  shell:
+    cmd: bash -c "echo -e 'n\np\n\n\n\nw\n'" | fdisk /dev/sdc
+    creates: /dev/sdc1
+
+- name: mkfs.ext4 the CS Drive
+  shell:
+    cmd: mkfs.ext4 /dev/sdc1 && touch /usr/local/etc/sdc1_mkfsed
+    creates: /usr/local/etc/sdc1_mkfsed
+
+- name: Add CS Drive to fstab
+  lineinfile:
+    path: /etc/fstab
+    regexp: /home/steam/Steam
+    line: /dev/sdc1     /home/steam/Steam     auto     defaults     0 0
+  register: csfstab
+
+- name: Automount CS Drive
+  command: mount -a
+  when: csfstab.changed
+
+- name: Partition and format and mount and setup instance store at reboot
+  cron:
+    name: root_startup_commands
+    user: root
+    special_time: reboot
+    job: /root/startup_commands >> /tmp/startup_command_output 2>&1
+
+- name: Run IP Address Update at Reboot
+  cron:
+    name: user_dns_update
+    user: "{{ ansible_user }}"
+    special_time: reboot
+    job: sleep 22 ; wget --no-check-certificate -O - {{ server_dns_update_endpoint }} >> /tmp/ip_addr_update_output 2>&1 &
+
+- name: Make Steam/server dir
+  file:
+    path: "/home/steam/Steam/server"
+    state: directory
+    owner: steam
+    group: steam
+    mode: 0755
+
+- name: Make Steam/server/steamapps dir
+  file:
+    path: "/home/steam/Steam/server/steamapps"
+    state: directory
+    owner: steam
+    group: steam
+    mode: 0755

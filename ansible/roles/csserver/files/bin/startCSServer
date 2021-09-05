@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DESKTOP="-ip 192.168.1.2 +port 27016 +clientport 27006 +tv_port 27021"
+LAPTOP="-ip 192.168.1.10 +port 27015 +clientport 27005 +tv_port 27020"
+CURRENTCONFIG=""
+
+SERVERCONFIGS=~/serverConfigs
+SRCDSCSS=~/srcds_1/css
+
+cp "${SERVERCONFIGS}/sourcemotd.txt" "${SRCDSCSS}/cstrike/motd.txt"
+cp "${SERVERCONFIGS}/sourcemotd.txt" "${SRCDSCSS}/cstrike/motd_text.txt"
+
+if [ "$1" == "update" ]; then
+	screen -dmS csserver ${SRCDSCSS}/srcds_run -game cstrike +map de_dust +maxplayers 32 $CURRENTCONFIG -autoupdate
+else
+	screen -dmS csserver ${SRCDSCSS}/srcds_run -game cstrike +map de_dust +maxplayers 32 $CURRENTCONFIG 
+fi

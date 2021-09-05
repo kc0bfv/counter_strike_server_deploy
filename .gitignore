@@ -4,3 +4,5 @@ terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/.terraform
 terraform/.terraform.lock.hcl
+ansible/secrets_password
+ansible/server_secrets.enc

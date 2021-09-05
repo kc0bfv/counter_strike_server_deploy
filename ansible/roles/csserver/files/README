@@ -1,0 +1,16 @@
+# To change to the steam account and be able to use screen...
+sudo su -l steam -c "script /dev/null"
+
+# OR
+bin/change_to_steam  # in the path :-)
+
+
+# To make it so the steam updates put their temporary stuff in a large
+# temporary drive instead of on the main drive, choking up the main drive
+# unnecessarily...
+cd Steam/server/
+cd steamapps/
+rm -rf temp/ downloading/
+ln -s /mnt/steamtemp/temp/ ./
+ln -s /mnt/steamtemp/downloading/ ./
+

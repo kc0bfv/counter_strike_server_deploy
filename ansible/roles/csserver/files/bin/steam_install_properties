@@ -1,0 +1,16 @@
+homeDir="$HOME"
+
+
+# Properties of the steam install, created by steam
+steamBaseDir="${homeDir}/Steam"
+steamServerDir="${steamBaseDir}/server"
+
+# Properties of the csgo install, created by steam
+csgoServerFolder="${steamServerDir}/csgo"
+csgoCFGFolder="${csgoServerFolder}/cfg"
+
+
+# Local storage locations I use
+csgoConfigFolder="${homeDir}/serverConfigs/csgo"
+backupSourcemodPlugins="${homeDir}/sourcemod_plugins"
+tempDownloadFolder="/mnt/steamtemp"

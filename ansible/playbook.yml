@@ -1,6 +1,8 @@
 ---
 - hosts: csserver
   become: yes
+  vars_files:
+    - server_secrets.enc
   roles:
     - csserver
 
