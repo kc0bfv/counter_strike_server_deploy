@@ -1,0 +1,8 @@
+---
+
+csserver:
+    hosts:
+        host01:
+            ansible_host: 3.91.201.48
+            ansible_user: admin
+            ansible_ssh_private_key_file: ../terraform/key

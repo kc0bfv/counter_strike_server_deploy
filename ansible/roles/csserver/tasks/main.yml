@@ -1,0 +1,21 @@
+- name: Add the steam User
+  user:
+    name: steam
+
+- name: Add i386
+  shell:
+    cmd: dpkg --add-architecture i386 && touch /usr/local/etc/dpkg_i386_added
+    creates: /usr/local/etc/dpkg_i386_added
+
+- name: Add non-free
+  replace:
+    path: /etc/apt/sources.list
+    regexp: debian bullseye main$
+    replace: debian bullseye main non-free$
+
+- name: Install Steam
+  apt:
+    name: steamcmd:i386
+    update_cache: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
