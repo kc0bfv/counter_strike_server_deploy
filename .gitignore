@@ -1,3 +1,4 @@
+*.swp
 terraform/key
 terraform/key.pub
 terraform/terraform.tfstate

@@ -162,6 +162,9 @@ resource "aws_instance" "inst" {
     Environment = var.environ_tag
     Name = "Counterstrike Instance"
   }
+  volume_tags = {
+    Environment = var.environ_tag
+  }
 }
 
 resource "aws_ebs_volume" "inst_drive" {
