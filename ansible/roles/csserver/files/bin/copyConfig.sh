@@ -6,9 +6,19 @@ helpMsg() {
 	echo "copyConfig.sh -{g,s,h}"
 	echo "Copy the server specific configuration over."
 	echo ""
+	echo "-2 - CS 2.0 Config"
 	echo "-g - CS:GO Config"
 	echo "-s - CS:Source Config"
 	echo "-h - Help (this)"
+}
+
+cstwo() {
+	cp "${csgoConfigFolder}/autoexec.cfg" "${cs2CFGFolder}"
+	cp "${csgoConfigFolder}/server.cfg" "${cs2CFGFolder}"
+	cp "${csgoConfigFolder}/motd.txt" "${cs2CFGFolder}/motd.txt"
+	cp "${csgoConfigFolder}/motd.txt" "${cs2CFGFolder}/motd.htm"
+
+    cp "${cstwoConfigFolder}/gamemode_competitive_server.cfg" "${cs2CFGFolder}"
 }
 
 csgo() {
@@ -42,7 +52,9 @@ cssrc () {
 	echo "Not Implemented Yet"
 }
 
-if [ "$1" == "-g" ]; then
+if [ "$1" == "-2" ]; then
+	cstwo
+elif [ "$1" == "-g" ]; then
 	csgo
 elif [ "$1" == "-s" ]; then
 	cssrc

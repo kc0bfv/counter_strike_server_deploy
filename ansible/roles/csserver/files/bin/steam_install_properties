@@ -9,8 +9,13 @@ steamServerDir="${steamBaseDir}/server"
 csgoServerFolder="${steamServerDir}/csgo"
 csgoCFGFolder="${csgoServerFolder}/cfg"
 
+# CS2 install
+cs2ServerFolder="${steamServerDir}/game/bin/linuxsteamrt64"
+cs2CFGFolder="${steamServerDir}/game/csgo/cfg"
+
 
 # Local storage locations I use
 csgoConfigFolder="${homeDir}/serverConfigs/csgo"
+cstwoConfigFolder="${homeDir}/serverConfigs/cstwo"
 backupSourcemodPlugins="${homeDir}/sourcemod_plugins"
 tempDownloadFolder="/mnt/steamtemp"

@@ -7,3 +7,4 @@ terraform/.terraform
 terraform/.terraform.lock.hcl
 ansible/secrets_password
 ansible/server_secrets.enc
+ansible/hosts

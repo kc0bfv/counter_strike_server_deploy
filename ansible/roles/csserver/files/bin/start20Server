@@ -1,0 +1,86 @@
+#!/bin/bash
+
+. ~/bin/steam_install_properties
+. ~/bin/steam_templated_info
+
+if ! [ "$1" == "" -o "$1" == "update" -o "$1" == "noscreen" ]; then
+    echo "Usage: $0 [update [validate]|noscreen]"
+    exit 1
+fi
+
+#LAPTOP="+port 27015 +sport 26901 +clientport 27005 +tv_port 27020 +net_public_adr 1.1.1.1"
+#CURRENTCONFIG="$LAPTOP"
+CURRENTCONFIG=""
+COMMONCONFIG="-dedicated -console -usercon"
+
+DEBUG=""
+#DEBUG="-debug -dev"
+
+# CS:GO
+#GAMENUM="740"
+# CS 2.0
+GAMENUM="730"
+
+STARTMAP="cs_italy"
+MAPGROUP="classic_maps"
+MAPGROUP="all_maps"
+#MAPGROUP="mg_dust"
+
+GUNGAMEMAPGROUP="gun_game_maps"
+#GUNGAMEMAPGROUP="all_maps"
+
+# Game Types
+CLASSICCASUAL="+game_type 0 +game_mode 0 +mapgroup $MAPGROUP +map $STARTMAP"
+CLASSICCOMPETITIVE="+game_type 0 +game_mode 1 +mapgroup $MAPGROUP +map $STARTMAP"
+ARMSRACE="+game_type 1 +game_mode 0 +mapgroup $GUNGAMEMAPGROUP +map ar_shoots"
+DEMOLITION="+game_type 1 +game_mode 1 +mapgroup $GUNGAMEMAPGROUP +map de_lake"
+
+WORKSHOPMAPS="+game_type 0 +game_mode 1 +host_workshop_collection 129176567 +workshop_start_map 125783148"
+
+#GAMETYPE="$CLASSICCASUAL"
+#GAMETYPE="$CLASSICCOMPETITIVE"
+#GAMETYPE="$ARMSRACE"
+#GAMETYPE="$DEMOLITION"
+#GAMETYPE="$WORKSHOPMAPS"
+GAMETYPE="+game_type 0 +game_mode 1 +mapgroup mg_active +map de_dust2"
+
+if [ "$1" == "update" ]; then
+    USER="$steamUser"
+    PASS=""
+    #PASS="if you need to login, you'll need to replace this with the actual password, however, as of 22 Jul 2017 it works with anonymous login..."
+    # Actually - as of 28 Oct 2023 you need to login for CS2.0 - but, once the login is cached with steam guard input you don't need the password I think
+    LOGIN="+login $USER $PASS"
+    #LOGIN="+login anonymous"
+    AUTH=""
+
+    VALIDATE=""
+    if [ "$2" == "validate" ]; then
+        VALIDATE="validate"
+    fi
+
+    TEMP_DOWNLOAD_FOLDERS="downloading temp"
+    for FLD in $TEMP_DOWNLOAD_FOLDERS; do
+        if [ -d "${tempDownloadFolder}/${FLD}" ]; then
+            if [ ! -h "${steamServerDir}/steamapps/${FLD}" ]; then
+                rm -rf "${steamServerDir}/steamapps/${FLD}"
+                ln -s "${tempDownloadFolder}/${FLD}" "${steamServerDir}/steamapps/${FLD}"
+            fi
+        fi
+    done
+
+    UPDATE_COMMAND="/usr/games/steamcmd $LOGIN "$AUTH" +force_install_dir "${steamServerDir}/" +app_update $GAMENUM $VALIDATE +quit"
+
+    cd "${steamBaseDir}"
+    echo $UPDATE_COMMAND
+    $UPDATE_COMMAND
+    cd - &> /dev/null
+else
+    "${homeDir}/bin/copyConfig.sh" -2
+    if [[ "$1" != "noscreen" ]]; then
+        SCREEN="screen -dmS goserver"
+    fi
+    $SCREEN ${cs2ServerFolder}/cs2 $COMMONCONFIG $GAMETYPE $DEBUG
+fi
+
+# 24 Aug testing results
+# Taking +ip 192.168.1.10 out of the command line got the server past the sending reservation request phase.  I don't know if +net_public_adr, or +ip 0.0.0.0 are important.  Removing +ip 192... was the only change I had to make to get the server to work.  Adding in +ip 0... and +net_public... allows me to connect only over internet IP 

@@ -16,7 +16,10 @@ variable "instance_ami" {
   # default = "ami-05f5cd6454a382a70"
 
   # Debian 11 64bit us-east-1
-  default = "ami-0a943bffbae98ca20"
+  #default = "ami-0a943bffbae98ca20"
+  
+  # Debian 12 64bit us-east-2
+  default = "ami-0ec3d9efceafb89e0"
 }
 
 variable "machine_type" {
@@ -35,7 +38,7 @@ variable "subnet_number" {
 
 provider "aws" {
   profile = "aws_admin"
-  region  = "us-east-1"
+  region  = "us-east-2"
 }
 
 resource "aws_vpc" "vpc" {
@@ -142,7 +145,7 @@ resource "aws_security_group" "allow_admin" {
 }
 
 resource "aws_key_pair" "key" {
-  key_name   = "key"
+  key_name   = "counterstrike_key"
   public_key = file("key.pub")
 
   tags = { Environment = var.environ_tag }
@@ -169,7 +172,7 @@ resource "aws_instance" "inst" {
 
 resource "aws_ebs_volume" "inst_drive" {
   availability_zone = aws_instance.inst.availability_zone
-  size              = 50
+  size              = 60
 
   tags = { Environment = var.environ_tag }
 }

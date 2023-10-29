@@ -22,4 +22,4 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-su steam -c 'screen -dmS serverUpdate sh -c "/home/steam/bin/startGOServer update; /home/steam/bin/startGOServer update; /home/steam/bin/startGOServer noscreen"'
+su steam -c 'screen -dmS serverUpdate sh -c "/home/steam/bin/start20Server update; /home/steam/bin/start20Server update; /home/steam/bin/start20Server noscreen"'

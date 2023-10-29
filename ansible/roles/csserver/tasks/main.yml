@@ -1,6 +1,14 @@
+- name: Install Cron
+  apt:
+    name: cron
+    update_cache: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
 - name: Add the steam User
   user:
     name: steam
+    shell: /bin/bash
 
 - name: Add i386
   shell:
@@ -9,9 +17,9 @@
 
 - name: Add non-free
   replace:
-    path: /etc/apt/sources.list
-    regexp: debian bullseye main$
-    replace: debian bullseye main non-free
+    path: /etc/apt/sources.list.d/debian.sources
+    regexp: 'Components: main$'
+    replace: 'Components: main non-free'
 
 - name: Preseed Steam Question Response
   shell:
@@ -101,6 +109,13 @@
   template:
     src: webapi_authkey.txt
     dest: /home/steam/serverConfigs/csgo/webapi_authkey.txt
+    owner: steam
+    group: steam
+
+- name: Setup steam_templated_info
+  template:
+    src: steam_templated_info
+    dest: /home/steam/bin/steam_templated_info
     owner: steam
     group: steam
 

@@ -16,9 +16,9 @@ DEBUG=""
 #DEBUG="-debug -dev"
 
 # CS:GO
-#GAMENUM="740"
+GAMENUM="740"
 # CS 2.0
-GAMENUM="730"
+#GAMENUM="730"
 
 STARTMAP="cs_italy"
 MAPGROUP="classic_maps"
