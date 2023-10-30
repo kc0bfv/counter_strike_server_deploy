@@ -35,14 +35,16 @@ CLASSICCOMPETITIVE="+game_type 0 +game_mode 1 +mapgroup $MAPGROUP +map $STARTMAP
 ARMSRACE="+game_type 1 +game_mode 0 +mapgroup $GUNGAMEMAPGROUP +map ar_shoots"
 DEMOLITION="+game_type 1 +game_mode 1 +mapgroup $GUNGAMEMAPGROUP +map de_lake"
 
-WORKSHOPMAPS="+game_type 0 +game_mode 1 +host_workshop_collection 129176567 +workshop_start_map 125783148"
+#WORKSHOPMAPS="+game_type 0 +game_mode 1 +host_workshop_collection 129176567 +workshop_start_map 125783148"
 
 #GAMETYPE="$CLASSICCASUAL"
 #GAMETYPE="$CLASSICCOMPETITIVE"
 #GAMETYPE="$ARMSRACE"
 #GAMETYPE="$DEMOLITION"
 #GAMETYPE="$WORKSHOPMAPS"
-GAMETYPE="+game_type 0 +game_mode 1 +mapgroup mg_active +map de_dust2"
+# Map groups: mg_active mg_reserves
+#GAMETYPE="+game_type 0 +game_mode 1 +mapgroup mg_casualsigma +map de_dust2"
+GAMETYPE="+game_type 0 +game_mode 1 +mapgroup mg_custom +map de_dust2"
 
 if [ "$1" == "update" ]; then
     USER="$steamUser"

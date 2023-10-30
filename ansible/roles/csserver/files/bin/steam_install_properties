@@ -11,7 +11,8 @@ csgoCFGFolder="${csgoServerFolder}/cfg"
 
 # CS2 install
 cs2ServerFolder="${steamServerDir}/game/bin/linuxsteamrt64"
-cs2CFGFolder="${steamServerDir}/game/csgo/cfg"
+cs2CSGOFolder="${steamServerDir}/game/csgo"
+cs2CFGFolder="${cs2CSGOFolder}/cfg"
 
 
 # Local storage locations I use

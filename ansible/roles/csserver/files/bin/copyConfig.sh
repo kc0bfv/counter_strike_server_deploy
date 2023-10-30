@@ -17,6 +17,7 @@ cstwo() {
 	cp "${csgoConfigFolder}/server.cfg" "${cs2CFGFolder}"
 	cp "${csgoConfigFolder}/motd.txt" "${cs2CFGFolder}/motd.txt"
 	cp "${csgoConfigFolder}/motd.txt" "${cs2CFGFolder}/motd.htm"
+	cp "${cstwoConfigFolder}/gamemodes_server.txt" "${cs2CSGOFolder}/gamemodes_server.txt"
 
     cp "${cstwoConfigFolder}/gamemode_competitive_server.cfg" "${cs2CFGFolder}"
 }
